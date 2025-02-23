@@ -71,7 +71,7 @@ def get_test_folder_name(page):
     try:
         page.wait_for_selector("p.cesta", timeout=5000)
         folder_name = page.query_selector("p.cesta").inner_text().strip()
-        # Sanitize the folder name by replacing "/" with " - " and stripping extra whitespace
+        # Sanitize the folder name by replacing "/" with " - "
         folder_name = folder_name.replace("/", " - ")
         print(f"Detected test folder name: {folder_name}")
         return folder_name
@@ -112,12 +112,15 @@ def capture_question(page, question_url, question_number, screenshot_dir, html_d
     except Exception as e:
         print(f"Error taking screenshot of .container-test on question {question_number}:", e)
 
-    # Save HTML content of the page
+    # Save HTML content of the question part only.
+    # Here we extract only the parts that contain the question content.
     try:
+        # Adjust the selector(s) as needed to capture the question text.
+        content = page.locator("div.citace-container, div.vypis_zadani").all_inner_texts()
         html_filename = os.path.join(html_dir, f"question_{question_number}.html")
         with open(html_filename, "w", encoding="utf-8") as f:
-            f.write(page.content())
-        print(f"Saved HTML to: {html_filename}")
+            f.write("\n\n".join(content))
+        print(f"Saved question HTML to: {html_filename}")
     except Exception as e:
         print(f"Error saving HTML for question {question_number}:", e)
 
@@ -148,6 +151,64 @@ def capture_all_questions(page, base_test_url, subject, category_radio_id,
     for i in range(start_question, end_question + 1):
         question_url = base_test_url + str(i)
         capture_question(page, question_url, i, new_screenshot_dir, new_html_dir)
+    return test_folder  # Return the folder name for later use
+
+def show_results(page):
+    # Click the "ukončit" link
+    try:
+        page.click("a.odkaz.ukoncit", timeout=10000)
+        print("Clicked on 'ukončit' button.")
+    except Exception as e:
+        print("Failed to click on 'ukončit' button:", e)
+
+    # Wait for the popup to appear
+    try:
+        page.wait_for_selector("div.vyskakovaci-okno", timeout=10000)
+        print("Popup appeared.")
+    except Exception as e:
+        print("Popup did not appear:", e)
+
+    # Click the "Ano" button within the popup
+    try:
+        page.click("button.opravit-button", timeout=10000)
+        print("Clicked 'Ano' in popup.")
+    except Exception as e:
+        print("Failed to click 'Ano' button in popup:", e)
+
+    # Wait for the results container to appear
+    try:
+        page.wait_for_selector("div.shrnuti-width", timeout=10000)
+        print("Results container is visible.")
+    except Exception as e:
+        print("Results container did not appear:", e)
+
+def capture_results(page, output_path):
+    """
+    Captures a full screenshot of the results container (<div class="shrnuti-width">)
+    by temporarily resizing the viewport.
+    """
+    try:
+        element = page.query_selector("div.shrnuti-width")
+        if element:
+            bounding_box = element.bounding_box()
+            if bounding_box:
+                # Save the original viewport size.
+                original_viewport = page.viewport_size
+                new_width = int(bounding_box["width"])
+                new_height = int(bounding_box["height"])
+                page.set_viewport_size({"width": new_width, "height": new_height})
+                
+                element.screenshot(path=output_path)
+                print(f"Saved full results screenshot as {output_path}")
+                
+                # Restore the original viewport.
+                page.set_viewport_size(original_viewport)
+            else:
+                print("Could not determine bounding box for results container.")
+        else:
+            print("Results container not found.")
+    except Exception as e:
+        print("Error capturing results screenshot:", e)
 
 def main(subject, category_radio_id, start_question, end_question,
          screenshot_dir, html_dir, detect_total):
@@ -171,14 +232,21 @@ def main(subject, category_radio_id, start_question, end_question,
         wait_for_subject_selection(page)
 
         # Steps 4-6: Process questions (with optional detection of total questions)
-        capture_all_questions(page, base_test_url, subject, category_radio_id,
-                              start_question, end_question, screenshot_dir, html_dir, detect_total)
+        test_folder = capture_all_questions(page, base_test_url, subject, category_radio_id,
+                                            start_question, end_question, screenshot_dir, html_dir, detect_total)
+
+        # Now, show results by clicking through the confirmation popup.
+        show_results(page)
+
+        # Capture the full results screenshot in the same test folder as questions.
+        results_output = os.path.join(screenshot_dir, test_folder, "results.png")
+        capture_results(page, results_output)
 
         browser.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Automate tau.cermat.cz test session and capture questions."
+        description="Automate tau.cermat.cz test session and capture questions and results."
     )
     parser.add_argument("--subject", type=str, default="ma", choices=["ma", "cj"],
                         help="Subject to select ('ma' for matematika, 'cj' for český jazyk a literatura). Default is 'ma'.")
