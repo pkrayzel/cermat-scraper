@@ -1,3 +1,4 @@
+
 ANSWERED = [
     {"name": "Porozumění uměleckému textu", "answered": [35, range(40, 51)]},
     {"name": "Porozumění neuměleckému textu", "answered": [range(1, 15)]},
@@ -20,13 +21,12 @@ ANSWERED = [
     {"name": "Tvary slov", "answered": []},
     {"name": "Literatura", "answered": []},
     {"name": "Číslo a početní operace", "answered": [range(1, 6), range(10, 14), range(18, 21), 32, 35, 60, 73]},
-    {"name": "Slovní úlohy na číslo a početní operace", "answered": [range(1, 46), range(109, 111), range(151, 153)]},
+    {"name": "Slovní úlohy na číslo a početní operace", "answered": [range(1, 46), 49, 76, 85, range(109, 111), 120, 123, range(143, 145), range(151, 153), 164]},
     {"name": "Převody jednotek", "answered": [range(1, 6), range(7, 9), range(17, 19), 31, 36, 42]},
     {"name": "Grafy, schémata, tabulky a slovní úlohy s nimi", "answered": [range(35, 38), range(50, 52), 59, range(63, 65)]},
-    {"name": "Geometrie v rovině", "answered": []},
+    {"name": "Geometrie v rovině", "answered": [7, 22, 29, 34]},
     {"name": "Geometrie v prostoru", "answered": [range(1, 6), range(7, 16)]},
     {"name": "Konstrukční úlohy", "answered": [range(1, 6)]},
     {"name": "Aplikační úlohy netypicky zadané", "answered": [range(14, 16)]},
     {"name": "Osová souměrnost", "answered": [range(3, 6), 9]},
 ]
-
