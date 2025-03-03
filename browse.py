@@ -3,7 +3,8 @@ import time
 import argparse
 from playwright.sync_api import sync_playwright
 import psutil
-from questions import ANSWERED, CATEGORIES
+from questions import CATEGORIES
+from answered import ANSWERED
 from common import accept_cookies, click_prijimacky, select_category, select_subject, wait_for_subject_selection
 
 def main(subject, category_radio_id, start_question):
