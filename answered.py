@@ -1,14 +1,14 @@
 
 ANSWERED = [
-    {"name": "Porozumění uměleckému textu", "answered": [13, 26, 35, range(40, 51), 119]},
-    {"name": "Porozumění neuměleckému textu", "answered": [range(1, 15), 48, range(58, 60), 70, 80, 92, 103, 120, 122, 152, 163, 175, 230]},
-    {"name": "Práce s definicí", "answered": [2, range(13, 15), range(16, 18), 20, 22, range(24, 26), 27, 33, 35, range(39, 42), range(43, 45)]},
+    {"name": "Porozumění uměleckému textu", "answered": [13, 26, 35, range(40, 51), 61, 76, 105, 119]},
+    {"name": "Porozumění neuměleckému textu", "answered": [range(1, 15), 31, 48, range(58, 60), 70, range(80, 82), 92, 103, 120, 122, range(152, 154), 163, 175, 230]},
+    {"name": "Práce s definicí", "answered": [2, range(12, 15), range(16, 18), range(19, 21), 22, range(24, 28), 33, 35, range(39, 42), range(43, 45)]},
     {"name": "Práce s obrázky a textem", "answered": []},
-    {"name": "Textová návaznost", "answered": [range(2, 5), 10, range(15, 18), range(22, 25), 26, range(28, 30), range(32, 36)]},
+    {"name": "Textová návaznost", "answered": [range(2, 5), 10, range(15, 18), range(21, 27), range(28, 30), range(32, 37)]},
     {"name": "Sloh", "answered": []},
     {"name": "Pravidla českého pravopisu: uzavřené úlohy", "answered": [range(1, 6), range(10, 15), 59, 63, 87, 103, 122]},
     {"name": "Pravidla českého pravopisu: otevřené úlohy", "answered": []},
-    {"name": "Význam slov a významové vztahy", "answered": [20, 33, 63, 75, 95, 135, 157]},
+    {"name": "Význam slov a významové vztahy", "answered": [10, 20, 33, 63, 75, 95, 135, 139, 152, 157]},
     {"name": "Citově zabarvená slova, spisovnost × nespisovnost", "answered": [range(1, 3), range(6, 11)]},
     {"name": "Ustálená slovní spojení", "answered": []},
     {"name": "Hlásky a stavba slov", "answered": []},
@@ -30,4 +30,4 @@ ANSWERED = [
     {"name": "Aplikační úlohy netypicky zadané", "answered": [range(14, 16)]},
     {"name": "Osová souměrnost", "answered": [range(3, 6), 9]},
 ]
-]
+
