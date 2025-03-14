@@ -9,7 +9,7 @@ from questions import CATEGORIES
 from common import accept_cookies, click_prijimacky, detect_total_questions, select_category, select_subject, wait_for_subject_selection
 
 # Path to store the updated answered questions in Python format
-ANSWERED_PYTHON_FILE = "answered_now.py"
+ANSWERED_PYTHON_FILE = "answered.py"
 
 # --------------------------
 # Helper Functions
